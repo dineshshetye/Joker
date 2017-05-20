@@ -1,29 +1,100 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 
 <dom-module id="joke-container">
     <template>
         <style>
-            :host {
+             :host {
                 display: block;
+            }
+            .paper {
+                background: white;
+            }
+            .joke {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
             }
         </style>
 
         <div>
-            Joke container placeholder
+            <h3>Jokes</h3>
+
+            <paper-material role="listbox" elevation="1" class="paper">
+                <template is="dom-repeat" items="[[jokes]]">
+                    <div class="joke">
+                        <b>Text:</b> <span>[[item.text]]</span>
+                        
+                        <b>Punchline:</b> <span>[[item.punchline]]</span>
+                    </div>
+                </template> 
+            </paper-material>
+
+
+            <form>
+                <paper-input type="text" value="{{text}}" placeholder="text" required auto-validate></paper-input>
+                <paper-input type="text" value="{{punchline}}" placeholder="punchline" required auto-validate></paper-input>
+                <paper-button type="submit" on-tap="_saveJoke">Add</paper-button>
+            </form>
         </div>
     </template>
     <script>
         "use strict";
 
         class JokeContainer extends Polymer.Element {
-            static get is() { 
-                return 'joke-container'; 
+            static get is() {
+                return 'joke-container';
             }
 
             static get properties() {
                 return {
-
+                    text: {
+                        type: String,
+                        notify: true
+                    },
+                    punchline: {
+                        type: String,
+                        notify: true
+                    },
+                    jokes: {
+                        type: Array,
+                        notify: true
+                    }
                 }
+            }
+
+            ready() {
+                super.ready();
+                this._handleDb();
+            }
+
+            _handleDb() {
+                var self = this;
+                let jokesRef = firebase.database().ref('jokes');
+                jokesRef.on('value', function (snapshot) {
+                    let jokes = [];
+                    snapshot.forEach(childSnapshot => {
+                        jokes.push(childSnapshot.val());
+                    });
+                    self.jokes = jokes;
+                })
+            }
+
+            _saveJoke() {
+                let self = this;
+                let newPostKey = firebase.database().ref().child('jokes').push().key;
+                let ref = firebase.database().ref('jokes').push({
+                    id: newPostKey,
+                    text: this.text,
+                    punchline: this.punchline
+                });
+                ref.on('value', function(){
+                    self.text = '';
+                    self.punchline = '';
+                });
             }
         }
 

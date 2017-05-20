@@ -11,8 +11,8 @@
   <template>
 
     <custom-style>
-      <style is="custom-style" include="paper-material-styles" >
-        :host {
+      <style is="custom-style" include="paper-material-styles">
+         :host {
           display: block;
         }
 
@@ -23,20 +23,19 @@
         img {
           width: 64px;
         }
-        
+
         app-toolbar.custom {
           --app-toolbar-background: #673AB7;
         }
-        
       </style>
     </custom-style>
 
     <app-header reveals>
       <paper-material elevation="2">
         <app-toolbar>
-           <div main-title>Joker</div>
-           <div>[[username]]</div>
-           <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>
+          <div main-title>Joker</div>
+          <div>[[username]]</div>
+          <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>
         </app-toolbar>
       </paper-material>
     </app-header>
@@ -44,12 +43,12 @@
 
     <div class="content">
       <template is="dom-if" if="[[!authenticated]]">
-        <view-login username="{{username}}" photo-url="{{photoUrl}}" ></view-login>
+        <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
       </template>
 
       <joke-container></joke-container>
     </div>
-    
+
   </template>
 
   <script>
@@ -58,7 +57,9 @@
      * @polymer
      */
     class JokerApp extends Polymer.Element {
-      static get is() { return 'joker-app'; }
+      static get is() {
+        return 'joker-app';
+      }
       static get properties() {
         return {
           prop1: {
@@ -66,39 +67,43 @@
             value: 'Joker-app'
           },
           username: {
-              type: String,
-              value: 'Not yet logged in',
-              notify: true
+            type: String,
+            value: 'Not yet logged in',
+            notify: true
           },
           photoUrl: {
-              type: String,
-              notify: true
+            type: String,
+            notify: true
           },
           authenticated: {
-              type: Boolean,
-              value: false,
-              notify: true
+            type: Boolean,
+            value: false,
+            notify: true
           }
         };
       }
 
-
-      ready() {
-        super.ready();
-        var self = this;
-        defaultAuth.onAuthStateChanged(function(currentUser){
-          console.log('state changed to', currentUser);
+      _handleAuth(self) {
+        defaultAuth.onAuthStateChanged(function (currentUser) {
           if (defaultAuth.currentUser) {
             let user = currentUser
-
             self.username = user.displayName;
             self.photoUrl = user.photoURL;
-
             self.authenticated = true;
           } else {
             self.authenticated = false;
           }
-        })
+        });
+      }
+
+      _handleDb(self) {
+      }
+
+      ready() {
+        super.ready();
+        this._handleAuth(this);
+        this._handleDb(this);
+        var self = this;
       }
     }
 

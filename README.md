@@ -4,7 +4,7 @@ Ratings for Jokes
 
 # Firebase setup
 
-Add your firebase setup script in `scripts/firebase-init`, you may need to wrap it in an immediately invoked function expression.
+Add your firebase setup script in `scripts/firebase-init.js`, you may need to wrap it in an immediately invoked function expression.
 
 ## Install the Polymer-CLI
 

@@ -104,7 +104,8 @@
                 let self = this;
                 let ref = firebase.database().ref('jokes').push({
                     text: this.text,
-                    punchline: this.punchline
+                    punchline: this.punchline,
+                    uid: defaultAuth.currentUser.uid
                 });
                 ref.on('value', function(){
                     self.text = '';

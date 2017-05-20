@@ -3,5 +3,14 @@
     "public": "build/default",
     "ignore": [
     ]
+  },
+  "rules": {
+   "jokes": {
+      "$joke": {
+        // only the user that created the data can delete it
+				".write": "!data.exists() || auth.uid == data.child('uid').val()"
+      },
+     	".read": "true"
+    }
   }
 }

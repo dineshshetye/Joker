@@ -34,8 +34,11 @@
       <paper-material elevation="2">
         <app-toolbar>
           <div main-title>Joker</div>
-          <div>[[username]]</div>
-          <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>
+
+          <template is="dom-if" if="[[authenticated]]">
+            <div>[[username]]</div>
+            <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>
+          </template>
         </app-toolbar>
       </paper-material>
     </app-header>
@@ -96,8 +99,7 @@
         });
       }
 
-      _handleDb(self) {
-      }
+      _handleDb(self) {}
 
       ready() {
         super.ready();

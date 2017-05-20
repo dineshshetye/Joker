@@ -1,0 +1,58 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="userinfo-display">
+    <template>
+        <style>
+             :host {
+                display: block;
+            }
+
+            img {
+                width: 32px;
+                padding: 15px;
+            }
+
+            .text {
+                vertical-align: middle;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .content {
+                display: flex;
+            }
+        </style>
+        <div class="content">
+            <div>
+                <img src="[[photoUrl]]" alt="Photo Not Loaded" />
+            </div>
+            <div class="text">
+                <span>[[username]]</span>
+            </div>
+        </div>
+    </template>
+    <script>
+        "use strict";
+
+        class UserinfoDisplay extends Polymer.Element {
+            static get is() {
+                return 'userinfo-display';
+            }
+
+            static get properties() {
+                return {
+                    username: {
+                        type: String,
+                        value: 'Not yet logged in',
+                        notify: true
+                    },
+                    photoUrl: {
+                        type: String,
+                        notify: true
+                    }
+                }
+            }
+        }
+        window.customElements.define(UserinfoDisplay.is, UserinfoDisplay)
+    </script>
+</dom-module>

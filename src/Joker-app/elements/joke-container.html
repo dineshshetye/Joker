@@ -31,8 +31,9 @@
                         <b>Text:</b> <span>[[item.text]]</span>
                         
                         <b>Punchline:</b> <span>[[item.punchline]]</span>
-
-                        <paper-icon-button icon="delete-forever"></paper-icon-button>
+                        <template is="dom-if" if="[[authenticated]]">
+                            <paper-icon-button icon="delete-forever"></paper-icon-button>
+                        </template>
                     </div>
                 </template> 
             </paper-material>
@@ -41,7 +42,7 @@
             <form>
                 <paper-input type="text" value="{{text}}" placeholder="text" required auto-validate></paper-input>
                 <paper-input type="text" value="{{punchline}}" placeholder="punchline" required auto-validate></paper-input>
-                <paper-button type="submit" on-tap="_saveJoke">Add</paper-button>
+                <paper-button type="submit" on-tap="_saveJoke" raised>Add</paper-button>
             </form>
         </div>
     </template>
@@ -65,6 +66,10 @@
                     },
                     jokes: {
                         type: Array,
+                        notify: true
+                    },
+                    authenticated: {
+                        type: Boolean,
                         notify: true
                     }
                 }

@@ -24,15 +24,19 @@
           width: 64px;
         }
 
-        app-toolbar.custom {
-          --app-toolbar-background: #673AB7;
+
+
+        .custom {
+            background: #FAFAFA;
         }
       </style>
     </custom-style>
 
-    <app-header reveals>
-      <paper-material elevation="2">
-        <app-toolbar>
+
+    <app-header-layout>
+      <app-header slot="header" fixed condenses effects="waterfall">
+        <paper-material elevation="2">
+        <app-toolbar class="custom">
           <div main-title>Joker</div>
 
           <template is="dom-if" if="[[authenticated]]">
@@ -40,17 +44,21 @@
             <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>
           </template>
         </app-toolbar>
-      </paper-material>
-    </app-header>
+        </paper-material>
+      </app-header>
+      <div>
+        <template is="dom-if" if="[[!authenticated]]">
+          <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
+        </template>
+
+        <joke-container></joke-container>
+      </div>
+    </app-header-layout>
 
 
-    <div class="content">
-      <template is="dom-if" if="[[!authenticated]]">
-        <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
-      </template>
+    <!--<div class="content">
 
-      <joke-container></joke-container>
-    </div>
+    </div>-->
 
   </template>
 

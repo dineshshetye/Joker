@@ -1,0 +1,32 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="joke-container">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <div>
+            Joke container placeholder
+        </div>
+    </template>
+    <script>
+        "use strict";
+
+        class JokeContainer extends Polymer.Element {
+            static get is() { 
+                return 'joke-container'; 
+            }
+
+            static get properties() {
+                return {
+
+                }
+            }
+        }
+
+        window.customElements.define(JokeContainer.is, JokeContainer);
+    </script>
+</dom-module>

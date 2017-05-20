@@ -1,0 +1,7 @@
+{
+  "name": "Joker",
+  "short_name": "Joker",
+  "description": "Ratings for Jokes",
+  "start_url": "/",
+  "display": "standalone"
+}

@@ -29,8 +29,12 @@
                 <template is="dom-repeat" items="[[jokes]]">
                     <div class="joke">
                         <b>Text:</b> <span>[[item.text]]</span>
-                        
+                        <br/>                       
                         <b>Punchline:</b> <span>[[item.punchline]]</span>
+                        <br/>                       
+                        <b>Added By:</b> <span>[[item.addedBy]]</span>
+                        <br/>                       
+                        <b>Joker:</b> <span>[[item.joker]]</span> 
                         <template is="dom-if" if="[[_canDelete(item)]]">
                             <paper-icon-button icon="delete-forever" on-tap="_deleteItem"></paper-icon-button>
                         </template>
@@ -38,12 +42,15 @@
                 </template> 
             </paper-material>
 
-
-            <form>
-                <paper-input type="text" value="{{text}}" placeholder="text" required auto-validate></paper-input>
-                <paper-input type="text" value="{{punchline}}" placeholder="punchline" required auto-validate></paper-input>
-                <paper-button type="submit" on-tap="_saveJoke" raised>Add</paper-button>
-            </form>
+            <template is="dom-if" if="[[authenticated]]">
+                <h3>Add new Joke</h3>
+                <form>
+                    <paper-input type="text" value="{{text}}" placeholder="Joke" required auto-validate></paper-input>
+                    <paper-input type="text" value="{{punchline}}" placeholder="Punchline" required auto-validate></paper-input>
+                    <paper-input type="text" value="{{joker}}" label="Joker" required auto-validate></paper-input><paper-button on-tap="_autoPopulate">Me</paper-button>
+                    <paper-button type="submit" on-tap="_saveJoke" raised>Add</paper-button>
+                </form>
+            </template>
         </div>
     </template>
     <script>
@@ -70,6 +77,14 @@
                     },
                     authenticated: {
                         type: Boolean,
+                        notify: true
+                    },
+                    date: {
+                        type: Date,
+                        value: Date.now()
+                    },
+                    joker: {
+                        type: String,
                         notify: true
                     }
                 }
@@ -107,16 +122,24 @@
                 })
             }
 
+            _autoPopulate() {
+                this.joker = defaultAuth.currentUser.displayName;
+            }
+
             _saveJoke() {
                 let self = this;
                 let ref = firebase.database().ref('jokes').push({
                     text: this.text,
                     punchline: this.punchline,
+                    addedBy: defaultAuth.currentUser.displayName,
+                    dateAdded: this.date,
+                    joker: this.joker,
                     uid: defaultAuth.currentUser.uid
                 });
                 ref.on('value', function(){
                     self.text = '';
                     self.punchline = '';
+                   
                 });
             }
         }

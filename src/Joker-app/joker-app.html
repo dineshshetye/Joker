@@ -26,6 +26,11 @@
           padding:15px;
         }
 
+        .title {
+          text-decoration: none;
+          
+        }
+
        /*app-header {
           --app-header-shadow: {
             box-shadow: inset 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
@@ -43,7 +48,10 @@
       <app-header slot="header" fixed condenses effects="waterfall">
         <paper-material elevation="2">
         <app-toolbar class="custom">
-          <div main-title>Joker</div>
+            
+          <div main-title class="title">
+            Joker
+          </div>
 
           <template is="dom-if" if="[[authenticated]]">
             <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>

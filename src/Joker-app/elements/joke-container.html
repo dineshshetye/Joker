@@ -32,7 +32,7 @@
                         
                         <b>Punchline:</b> <span>[[item.punchline]]</span>
                         <template is="dom-if" if="[[authenticated]]">
-                            <paper-icon-button icon="delete-forever"></paper-icon-button>
+                            <paper-icon-button icon="delete-forever" on-tap="_deleteItem"></paper-icon-button>
                         </template>
                     </div>
                 </template> 
@@ -80,13 +80,21 @@
                 this._handleDb();
             }
 
+            _deleteItem(e) {
+
+                const id = e.model.item.id;
+                firebase.database().ref('jokes/' + id).remove();
+            }
+
             _handleDb() {
                 var self = this;
                 let jokesRef = firebase.database().ref('jokes');
                 jokesRef.on('value', function (snapshot) {
                     let jokes = [];
                     snapshot.forEach(childSnapshot => {
-                        jokes.push(childSnapshot.val());
+                        let toAdd = childSnapshot.val();
+                        toAdd.id = childSnapshot.getKey();
+                        jokes.push(toAdd);
                     });
                     self.jokes = jokes;
                 })
@@ -94,9 +102,7 @@
 
             _saveJoke() {
                 let self = this;
-                let newPostKey = firebase.database().ref().child('jokes').push().key;
                 let ref = firebase.database().ref('jokes').push({
-                    id: newPostKey,
                     text: this.text,
                     punchline: this.punchline
                 });

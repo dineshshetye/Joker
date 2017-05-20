@@ -17,36 +17,42 @@
         }
 
         .content {
-          margin: 20px;
+          margin: auto;
+          min-width: 600px;
         }
 
         img {
-          width: 64px;
+          width: 32px;
+          padding:15px;
         }
 
-
+       /*app-header {
+          --app-header-shadow: {
+            box-shadow: inset 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
+          };
+        }*/
 
         .custom {
-            background: #FAFAFA;
+            background: #00E676;
         }
       </style>
     </custom-style>
 
 
-    <app-header-layout>
+    <app-header-layout fullbleed>
       <app-header slot="header" fixed condenses effects="waterfall">
         <paper-material elevation="2">
         <app-toolbar class="custom">
           <div main-title>Joker</div>
 
           <template is="dom-if" if="[[authenticated]]">
-            <div>[[username]]</div>
             <div><img src="[[photoUrl]]" alt="Photo Not Loaded"></div>
+            <div>[[username]]</div>
           </template>
         </app-toolbar>
         </paper-material>
       </app-header>
-      <div>
+      <div class="content">
         <template is="dom-if" if="[[!authenticated]]">
           <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
         </template>

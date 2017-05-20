@@ -14,10 +14,15 @@
     "paper-icon-button": "^2.0.0",
     "paper-menu-button": "^2.0.0",
     "paper-listbox": "^2.0.0",
-    "neon-elements": "^1.0.0"
+    "neon-elements": "^1.0.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0",
+    "webcomponentsjs": "^v1.0.0"
   }
 }

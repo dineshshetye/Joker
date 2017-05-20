@@ -9,6 +9,7 @@
 <link rel="import" href="./elements/joke-container.html">
 <link rel="import" href="./elements/userinfo-display.html">
 <link rel="import" href="./views/view-login.html">
+<link rel="import" href="./views/view-joke-list.html">
 
 <link rel="import" href="../../bower_components/paper-styles/element-styles/paper-material-styles.html">
 
@@ -22,7 +23,8 @@
         }
 
         .content {
-          margin: auto;
+          margin-left: auto;
+          margin-right: auto;
           min-width: 600px;
         }
 
@@ -54,11 +56,11 @@
           <div main-title class="title">
             Joker
           </div>
-        
-        
-        <template is="dom-if" if="[[!authenticated]]">
-          <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
-        </template>
+
+
+          <template is="dom-if" if="[[!authenticated]]">
+            <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
+          </template>
 
           <template is="dom-if" if="[[authenticated]]">
             <paper-menu-button>
@@ -76,15 +78,13 @@
         </app-toolbar>
       </app-header>
       <div class="content">
-    
-        <joke-container authenticated="[[authenticated]]"></joke-container>
+        <template is="dom-if" if="[[authenticated]]">
+            <joke-container></joke-container>
+        </template>
+        <view-joke-list authenticated="[[authenticated]]"></view-joke-list>
       </div>
     </app-header-layout>
 
-
-    <!--<div class="content">
-
-    </div>-->
 
   </template>
 

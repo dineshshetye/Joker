@@ -23,34 +23,14 @@
         </style>
 
         <div>
-            <h3>Jokes</h3>
 
-            <paper-material role="listbox" elevation="1" class="paper">
-                <template is="dom-repeat" items="[[jokes]]">
-                    <div class="joke">
-                        <b>Text:</b> <span>[[item.text]]</span>
-                        <br/>                       
-                        <b>Punchline:</b> <span>[[item.punchline]]</span>
-                        <br/>                       
-                        <b>Added By:</b> <span>[[item.addedBy]]</span>
-                        <br/>                       
-                        <b>Joker:</b> <span>[[item.joker]]</span> 
-                        <template is="dom-if" if="[[_canDelete(item)]]">
-                            <paper-icon-button icon="delete-forever" on-tap="_deleteItem"></paper-icon-button>
-                        </template>
-                    </div>
-                </template> 
-            </paper-material>
-
-            <template is="dom-if" if="[[authenticated]]">
-                <h3>Add new Joke</h3>
-                <form>
-                    <paper-input type="text" value="{{text}}" placeholder="Joke" required auto-validate></paper-input>
-                    <paper-input type="text" value="{{punchline}}" placeholder="Punchline" required auto-validate></paper-input>
-                    <paper-input type="text" value="{{joker}}" label="Joker" required auto-validate></paper-input><paper-button on-tap="_autoPopulate">Me</paper-button>
-                    <paper-button type="submit" on-tap="_saveJoke" raised>Add</paper-button>
-                </form>
-            </template>
+            <h3>Add new Joke</h3>
+            <form>
+                <paper-input type="text" value="{{text}}" label="Joke" required auto-validate></paper-input>
+                <paper-input type="text" value="{{punchline}}" label="Punchline" required auto-validate></paper-input>
+                <paper-input type="text" value="{{joker}}" label="Joker" required auto-validate></paper-input><paper-button on-tap="_autoPopulate">Me</paper-button>
+                <paper-button type="submit" on-tap="_saveJoke" raised>Add</paper-button>
+            </form>
         </div>
     </template>
     <script>
@@ -71,14 +51,6 @@
                         type: String,
                         notify: true
                     },
-                    jokes: {
-                        type: Array,
-                        notify: true
-                    },
-                    authenticated: {
-                        type: Boolean,
-                        notify: true
-                    },
                     date: {
                         type: Date,
                         value: Date.now()
@@ -92,34 +64,6 @@
 
             ready() {
                 super.ready();
-                this._handleDb();
-            }
-
-            _deleteItem(e) {
-
-                const id = e.model.item.id;
-                firebase.database().ref('jokes/' + id).remove();
-            }
-
-            _canDelete(item) {
-                console.log(item);
-                if (!this.authenticated) return false;
-                if (item.uid == defaultAuth.currentUser.uid) return true;
-                return false;
-            }
-
-            _handleDb() {
-                var self = this;
-                let jokesRef = firebase.database().ref('jokes');
-                jokesRef.on('value', function (snapshot) {
-                    let jokes = [];
-                    snapshot.forEach(childSnapshot => {
-                        let toAdd = childSnapshot.val();
-                        toAdd.id = childSnapshot.getKey();
-                        jokes.push(toAdd);
-                    });
-                    self.jokes = jokes;
-                })
             }
 
             _autoPopulate() {

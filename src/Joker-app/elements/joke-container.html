@@ -62,29 +62,26 @@
                 }
             }
 
-            ready() {
-                super.ready();
-            }
-
             _autoPopulate() {
                 this.joker = defaultAuth.currentUser.displayName;
             }
 
             _saveJoke() {
                 let self = this;
-                let ref = firebase.database().ref('jokes').push({
+                let joke = {
                     text: this.text,
                     punchline: this.punchline,
                     addedBy: defaultAuth.currentUser.displayName,
                     dateAdded: this.date,
                     joker: this.joker,
                     uid: defaultAuth.currentUser.uid
-                });
-                ref.on('value', function(){
-                    self.text = '';
-                    self.punchline = '';
-                   
-                });
+                };
+                window.dispatchEvent(
+                    new CustomEvent('add-joke', { detail: joke })
+                );
+             
+                this.text = '';
+                this.punchline = ''
             }
         }
 

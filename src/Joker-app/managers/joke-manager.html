@@ -1,0 +1,67 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="joke-manager">
+    <template>
+        <style>
+             :host {
+                display: none;
+            }
+        </style>
+    </template>
+
+    <script>
+        "use strict";
+
+        class JokeManager extends Polymer.Element {
+            static get is() {
+                return 'joke-manager';
+            }
+            static get properties() {
+                return {
+                    jokes: {
+                        type: Array,
+                        notify: true,
+                        value: []
+                    }
+                }
+            }
+            ready() {
+                super.ready();
+                this._subscribeToJokes();
+
+                window.addEventListener('add-joke', e => {
+                    this._add(e.detail);
+                });
+
+                window.addEventListener('delete-joke', e => {
+                    this._delete(e.detail)
+                });
+            }
+
+            _subscribeToJokes() {
+                let self = this;
+                let jokesRef = firebase.database().ref('jokes');
+                jokesRef.on('value', function (snapshot) {
+                    let jokes = [];
+                    snapshot.forEach(childSnapshot => {
+                        let toAdd = childSnapshot.val();
+                        toAdd.id = childSnapshot.getKey();
+                        jokes.push(toAdd);
+                    });
+                    const sortedJokes = _.sortBy(jokes, 'dateAdded').reverse();
+                    console.log('sortedJokes',sortedJokes)
+                    self.set('jokes', sortedJokes);
+                });
+            }
+
+            _delete(id) {
+                firebase.database().ref('jokes/' + id).remove();
+            }
+
+            _add(joke) {
+                firebase.database().ref('jokes').push(joke);
+            }
+        }
+        window.customElements.define(JokeManager.is, JokeManager);
+    </script>
+</dom-module>

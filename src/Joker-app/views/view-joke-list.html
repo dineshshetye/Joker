@@ -60,38 +60,17 @@
                 };
             }
 
-            ready() {
-                super.ready();
-                this._handleDb();
-            }
-
-
             _canDelete(item) {
                 if (!this.authenticated) return false;
                 if (item.uid == defaultAuth.currentUser.uid) return true;
                 return false;
             }
 
-
             _deleteItem(e) {
                 const id = e.model.item.id;
-                firebase.database().ref('jokes/' + id).remove();
-            }
-
-
-            _handleDb() {
-                var self = this;
-                let jokesRef = firebase.database().ref('jokes');
-                jokesRef.on('value', function (snapshot) {
-                    let jokes = [];
-                    snapshot.forEach(childSnapshot => {
-                        let toAdd = childSnapshot.val();
-                        toAdd.id = childSnapshot.getKey();
-                        toAdd.stars = 0;
-                        jokes.push(toAdd);
-                    });
-                    self.jokes = _.sortBy(jokes,'dateAdded').reverse();
-                });
+                window.dispatchEvent(
+                    new CustomEvent('delete-joke', { detail: id })
+                );
             }
         }
 

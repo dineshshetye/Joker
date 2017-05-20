@@ -11,6 +11,8 @@
 <link rel="import" href="./views/view-login.html">
 <link rel="import" href="./views/view-joke-list.html">
 
+<link rel="import" href="./managers/joke-manager.html">
+
 <link rel="import" href="../../bower_components/paper-styles/element-styles/paper-material-styles.html">
 
 <dom-module id="joker-app">
@@ -48,6 +50,8 @@
       </style>
     </custom-style>
 
+    <joke-manager jokes="{{store.jokes}}"></joke-manager>
+
 
     <app-header-layout fullbleed>
       <app-header slot="header" fixed condenses effects="waterfall">
@@ -81,7 +85,7 @@
         <template is="dom-if" if="[[authenticated]]">
             <joke-container></joke-container>
         </template>
-        <view-joke-list authenticated="[[authenticated]]"></view-joke-list>
+        <view-joke-list authenticated="[[authenticated]]" jokes="[[store.jokes]]"></view-joke-list>
       </div>
     </app-header-layout>
 
@@ -116,6 +120,13 @@
             type: Boolean,
             value: false,
             notify: true
+          },
+          store: {
+            type: Object,
+            notify: true,
+            value: {
+              jokes: []
+            }
           }
         };
       }

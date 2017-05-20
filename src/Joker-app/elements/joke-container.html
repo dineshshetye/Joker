@@ -20,6 +20,26 @@
                 box-sizing: border-box;
                 padding: 10px;
             }
+            .joker-row {
+                display: flex;
+                width: 100%;
+            }
+
+            .joker-input {
+                width: 100%; 
+            }
+
+            .joker-auto {
+                margin: auto;
+                margin-bottom: 0;
+            }
+            .me-button {
+                background: white;
+            }
+            .custom {
+                background: #00E676;
+            }
+
         </style>
 
         <div>
@@ -28,8 +48,15 @@
             <form>
                 <paper-input type="text" value="{{text}}" label="Joke" required auto-validate></paper-input>
                 <paper-input type="text" value="{{punchline}}" label="Punchline" required auto-validate></paper-input>
-                <paper-input type="text" value="{{joker}}" label="Joker" required auto-validate></paper-input><paper-button on-tap="_autoPopulate">Me</paper-button>
-                <paper-button type="submit" on-tap="_saveJoke" raised>Add</paper-button>
+                <div class="joker-row">
+                    <div class="joker-input">
+                        <paper-input type="text" value="{{joker}}" label="Joker" required auto-validate></paper-input>
+                    </div>
+                    <div class="joker-auto">
+                        <paper-button class="me-button" on-tap="_autoPopulate" raised>Me</paper-button>
+                    </div>
+                </div>
+                <paper-button type="submit" on-tap="_saveJoke" class="custom" raised>Add</paper-button>
             </form>
         </div>
     </template>

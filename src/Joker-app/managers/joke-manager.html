@@ -49,7 +49,6 @@
                         jokes.push(toAdd);
                     });
                     const sortedJokes = _.sortBy(jokes, 'dateAdded').reverse();
-                    console.log('sortedJokes',sortedJokes)
                     self.set('jokes', sortedJokes);
                 });
             }

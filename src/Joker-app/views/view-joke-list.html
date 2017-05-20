@@ -75,7 +75,6 @@
 
 
             _deleteItem(e) {
-
                 const id = e.model.item.id;
                 firebase.database().ref('jokes/' + id).remove();
             }
@@ -89,6 +88,7 @@
                     snapshot.forEach(childSnapshot => {
                         let toAdd = childSnapshot.val();
                         toAdd.id = childSnapshot.getKey();
+                        toAdd.stars = 0;
                         jokes.push(toAdd);
                     });
                     self.jokes = jokes;

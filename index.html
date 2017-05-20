@@ -17,17 +17,17 @@
     <link rel="manifest" href="/manifest.json">
 
     <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="/scripts/firebase-init.js"></script>
+    <script defer="defer">
+      var defaultAuth = firebase.auth();
+    </script>
     <link rel="import" href="/bower_components/paper-styles/demo-pages.html">
     <link rel="import" href="/src/Joker-app/joker-app.html">
   </head>
   <body unresolved>
 
-    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
-    <script src="/scripts/firebase-init.js"></script>
    
-    <script>
-      var defaultAuth = firebase.auth();
-    </script>
 
 
     <Joker-app></Joker-app>

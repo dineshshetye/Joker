@@ -84,29 +84,25 @@
       }
 
       _loginPrompt() {
-        debugger;
-        if (firebase.auth().currentUser) {
-
-          let user = firebase.auth().currentUser
-
-          this.username = user.displayName;
-          this.photoUrl = user.photoURL;
-
-          this.authenticated = true;
-        } else {
-          this.authenticated = false;
-        }
-      }
-
-      attached() {
-        debugger;
-        this._loginPrompt();
+        
       }
 
       ready() {
         super.ready();
-      
-        return true;
+        var self = this;
+        defaultAuth.onAuthStateChanged(function(currentUser){
+          console.log('state changed to', currentUser);
+          if (defaultAuth.currentUser) {
+            let user = currentUser
+
+            self.username = user.displayName;
+            self.photoUrl = user.photoURL;
+
+            self.authenticated = true;
+          } else {
+            self.authenticated = false;
+          }
+        })
       }
     }
 

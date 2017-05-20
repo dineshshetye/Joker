@@ -31,7 +31,7 @@
                         <b>Text:</b> <span>[[item.text]]</span>
                         
                         <b>Punchline:</b> <span>[[item.punchline]]</span>
-                        <template is="dom-if" if="[[authenticated]]">
+                        <template is="dom-if" if="[[_canDelete(item)]]">
                             <paper-icon-button icon="delete-forever" on-tap="_deleteItem"></paper-icon-button>
                         </template>
                     </div>
@@ -84,6 +84,13 @@
 
                 const id = e.model.item.id;
                 firebase.database().ref('jokes/' + id).remove();
+            }
+
+            _canDelete(item) {
+                console.log(item);
+                if (!this.authenticated) return false;
+                if (item.uid == defaultAuth.currentUser.uid) return true;
+                return false;
             }
 
             _handleDb() {

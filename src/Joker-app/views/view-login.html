@@ -6,7 +6,7 @@
 <dom-module id="view-login">
     <template>
         <style>
-            :host {
+             :host {
                 display: block;
             }
         </style>
@@ -16,7 +16,7 @@
                 Login with google
             </paper-button>
         </div>
-        
+
     </template>
 
     <script>
@@ -43,36 +43,35 @@
 
             _googleLogin() {
                 let self = this;
-                
-                    console.log("I want to log in with google");
-                    var provider = new firebase.auth.GoogleAuthProvider();    
-                    firebase.auth().signInWithPopup(provider).then(function(result) {
-                        // This gives you a Google Access Token. You can use it to access the Google API.
-                        var token = result.credential.accessToken;
-                        // The signed-in user info.
-                        var user = result.user.displayName;
-                        console.log('logged in as', user);
-                        debugger;
-                        self.username = result.user.displayName;
-                        self.photoUrl = result.user.photoURL;
-                        // ...
-                    }).catch(function(error) {
-                        // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        // The email of the user's account used.
-                        var email = error.email;
-                        // The firebase.auth.AuthCredential type that was used.
-                        var credential = error.credential;
-                        // ...
-                    });
-                
-               
+
+                console.log("I want to log in with google");
+                var provider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithPopup(provider).then(function (result) {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user.displayName;
+                    console.log('logged in as', user);
+                    debugger;
+                    self.username = result.user.displayName;
+                    self.photoUrl = result.user.photoURL;
+                    // ...
+                }).catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                });
+
+
             }
 
         }
 
         window.customElements.define(ViewLogin.is, ViewLogin);
-
     </script>
 </dom-module>

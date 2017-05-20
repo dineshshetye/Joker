@@ -67,7 +67,6 @@
 
 
             _canDelete(item) {
-                console.log(item);
                 if (!this.authenticated) return false;
                 if (item.uid == defaultAuth.currentUser.uid) return true;
                 return false;
@@ -91,7 +90,7 @@
                         toAdd.stars = 0;
                         jokes.push(toAdd);
                     });
-                    self.jokes = jokes;
+                    self.jokes = _.sortBy(jokes,'dateAdded').reverse();
                 });
             }
         }

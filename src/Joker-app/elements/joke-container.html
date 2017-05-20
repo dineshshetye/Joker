@@ -3,6 +3,8 @@
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="joke-container">
     <template>
@@ -29,6 +31,8 @@
                         <b>Text:</b> <span>[[item.text]]</span>
                         
                         <b>Punchline:</b> <span>[[item.punchline]]</span>
+
+                        <paper-icon-button icon="delete-forever"></paper-icon-button>
                     </div>
                 </template> 
             </paper-material>

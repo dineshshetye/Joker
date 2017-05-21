@@ -47,14 +47,16 @@
         <div class="content">
             <span class="user">[[user]]</span>
 
-            <paper-menu-button class="options">
-                <span slot="dropdown-trigger">
-                <paper-icon-button icon="more-vert"></paper-icon-button>
-              </span>
-                <paper-listbox slot="dropdown-content">
-                    <paper-item on-tap="_deleteItem">Delete</paper-item>
-                </paper-listbox>
-            </paper-menu-button>
+            <template is="dom-if" if="[[deletable]]">
+                <paper-menu-button class="options">
+                    <span slot="dropdown-trigger">
+                    <paper-icon-button icon="more-vert"></paper-icon-button>
+                </span>
+                    <paper-listbox slot="dropdown-content">
+                        <paper-item on-tap="_deleteItem">Delete</paper-item>
+                    </paper-listbox>
+                </paper-menu-button>
+            </template>
 
             <div>
                 [[joke]]
@@ -112,14 +114,22 @@
                         type: Boolean,
                         notify: true,
                         value: false
+                    },
+                    deletable: {
+                        type: Boolean,
+                        value: false
                     }
                 }
+            }
+
+            ready() {
+                super.ready();
+                this._checkIfDeletable();
             }
 
 
             _deleteItem(e) {
                 const id = this.jokeId
-
                 window.dispatchEvent(
                     new CustomEvent('delete-joke', {
                         detail: id
@@ -127,9 +137,14 @@
                 );
             }
 
-             _canDelete(item) {
-                if (!this.authenticated) return false;
-                if (item.uid == defaultAuth.currentUser.uid) return true;
+            _checkIfDeletable() {
+                this.deletable = this._canDelete()
+            }
+
+            _canDelete() {
+                console.log(this.uid);
+                if (!defaultAuth.currentUser) return false;
+                if (this.uid == defaultAuth.currentUser.uid) return true;
                 return false;
             }
 

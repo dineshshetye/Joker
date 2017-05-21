@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="./elements/joke-container.html">
 <link rel="import" href="./elements/userinfo-display.html">
 <link rel="import" href="./views/view-login.html">
@@ -80,6 +81,7 @@
           <joke-container></joke-container>
         </template>
         <view-joke-list authenticated="[[authenticated]]" jokes="[[store.jokes]]"></view-joke-list>
+        <paper-toast id="deleteToast" text="Joke has been deleted"></paper-toast>
       </div>
     </app-header-layout>
 
@@ -145,6 +147,10 @@
       ready() {
         super.ready();
         this._handleAuth(this);
+
+        window.addEventListener('joke-deleted-notification', e => {
+          this.$.deleteToast.open();
+        });
         var self = this;
       }
     }

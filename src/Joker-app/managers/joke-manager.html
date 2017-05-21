@@ -41,7 +41,7 @@
             _subscribeToJokes() {
                 let self = this;
                 let jokesRef = firebase.database().ref('jokes');
-                jokesRef.on('value', function (snapshot) {
+                jokesRef.on('value', snapshot => {
                     let jokes = [];
                     snapshot.forEach(childSnapshot => {
                         let toAdd = childSnapshot.val();
@@ -50,6 +50,12 @@
                     });
                     const sortedJokes = _.sortBy(jokes, 'dateAdded').reverse();
                     self.set('jokes', sortedJokes);
+                });
+
+                jokesRef.on('child_removed', snapshot => {
+                    window.dispatchEvent(
+                        new Event('joke-deleted-notification')
+                    );
                 });
             }
 

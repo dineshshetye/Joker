@@ -15,7 +15,8 @@
     "paper-menu-button": "^2.0.0",
     "paper-listbox": "^2.0.0",
     "neon-elements": "^1.0.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "paper-toast": "^2.0.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

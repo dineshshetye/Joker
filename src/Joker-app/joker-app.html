@@ -64,9 +64,10 @@
           </template>
 
           <template is="dom-if" if="[[authenticated]]">
+            <userinfo-display photo-url="[[photoUrl]]" username="[[username]]"></userinfo-display>
             <paper-menu-button>
               <span slot="dropdown-trigger">
-                <userinfo-display photo-url="[[photoUrl]]" username="[[username]]"></userinfo-display>
+                <paper-icon-button icon="more-vert" on-tap="_deleteItem"></paper-icon-button>
               </span>
               <paper-listbox slot="dropdown-content">
                 <paper-item on-tap="_signOut">Sign Out</paper-item>

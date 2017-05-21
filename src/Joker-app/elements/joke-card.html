@@ -1,0 +1,97 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="joke-card">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .content {
+                padding: 15px;
+            }
+            .user {
+                color: grey;
+                font-size: 12px;
+            }
+            .light-grey {
+                background: #efefef;
+            }
+            .punchline {
+                padding: 15px;
+                border-radius: 3px;
+                margin-top: 10px;
+            }
+
+            .joker {
+                margin-right: 0px;
+                margin-top: 10px;
+                right: 15px;
+                position: absolute;
+            }
+        </style>
+
+        <div class="content">
+            <span class="user">[[user]]</span>
+
+            <div>
+                [[joke]]
+            </div>
+
+            <template is="dom-if" if="[[show]]">
+                <div class="punchline light-grey">
+                    [[punchline]]
+                </div>
+            </template>
+
+            <template is="dom-if" if="[[!show]]">
+                <paper-button class="light-grey" on-tap="_showPunchline">Show Punchline</paper-button>
+            </template>
+
+            <span class="user joker">- [[joker]]</span>
+        </div>
+    </template>
+
+    <script>
+        "use strict"
+
+        class JokeCard extends Polymer.Element {
+            static get is() {
+                return 'joke-card';
+            }
+
+            static get properties() {
+                return {
+                    user: {
+                        type: String,
+                        notify: true
+                    },
+                    joker: {
+                        type: String,
+                        notify: true
+                    },
+                    joke: {
+                        type: String,
+                        notify: true
+                    },
+                    punchline: {
+                        type: String,
+                        notify: true
+                    },
+                    show: {
+                        type: Boolean,
+                        notify: true,
+                        value: false
+                    }
+                }
+            }
+
+            _showPunchline() {
+                this.show = true;
+            }
+        }
+
+        window.customElements.define(JokeCard.is, JokeCard);
+    </script>
+</dom-module>

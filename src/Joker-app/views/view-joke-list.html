@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
-
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../elements/joke-card.html">
 <dom-module id="view-joke-list">
     <template>
         <style>
@@ -23,18 +24,15 @@
         <h3>Jokes</h3>
         <paper-material role="listbox" elevation="1" class="paper">
             <template is="dom-repeat" items="[[jokes]]">
-                <div class="joke">
-                    <b>Text:</b> <span>[[item.text]]</span>
-                    <br/>
-                    <b>Punchline:</b> <span>[[item.punchline]]</span>
-                    <br/>
-                    <b>Added By:</b> <span>[[item.addedBy]]</span>
-                    <br/>
-                    <b>Joker:</b> <span>[[item.joker]]</span>
+
+                <joke-card joke="[[item.text]]" 
+                           user="[[item.addedBy]]"
+                           punchline="[[item.punchline]]"
+                           joker="[[item.joker]]"
+                           ></joke-card>
                     <template is="dom-if" if="[[_canDelete(item)]]">
                         <paper-icon-button icon="delete-forever" on-tap="_deleteItem"></paper-icon-button>
                     </template>
-                </div>
             </template>
         </paper-material>
     </template>

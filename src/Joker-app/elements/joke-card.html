@@ -1,39 +1,60 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
-
+<link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
 <dom-module id="joke-card">
     <template>
         <style>
-            :host {
+             :host {
                 display: block;
             }
 
             .content {
                 padding: 15px;
             }
+
             .user {
                 color: grey;
                 font-size: 12px;
             }
+
             .light-grey {
                 background: #efefef;
             }
+
             .punchline {
                 padding: 15px;
                 border-radius: 3px;
                 margin-top: 10px;
             }
 
+            .options {
+                right: 0;
+                position: absolute;
+                margin-top: -20px;
+                margin-right: -5px;
+                color: grey;
+            }
+
             .joker {
                 margin-right: 0px;
                 margin-top: 10px;
+                margin-left: auto;
                 right: 15px;
-                position: absolute;
+                display: table;
             }
         </style>
 
         <div class="content">
             <span class="user">[[user]]</span>
+
+            <paper-menu-button class="options">
+                <span slot="dropdown-trigger">
+                <paper-icon-button icon="more-vert"></paper-icon-button>
+              </span>
+                <paper-listbox slot="dropdown-content">
+                    <paper-item on-tap="_deleteItem">Delete</paper-item>
+                </paper-listbox>
+            </paper-menu-button>
 
             <div>
                 [[joke]]
@@ -63,6 +84,14 @@
 
             static get properties() {
                 return {
+                    uid: {
+                        type: String,
+                        notify: true
+                    },
+                    jokeId: {
+                        type: String,
+                        notify: true
+                    },
                     user: {
                         type: String,
                         notify: true
@@ -85,6 +114,23 @@
                         value: false
                     }
                 }
+            }
+
+
+            _deleteItem(e) {
+                const id = this.jokeId
+
+                window.dispatchEvent(
+                    new CustomEvent('delete-joke', {
+                        detail: id
+                    })
+                );
+            }
+
+             _canDelete(item) {
+                if (!this.authenticated) return false;
+                if (item.uid == defaultAuth.currentUser.uid) return true;
+                return false;
             }
 
             _showPunchline() {

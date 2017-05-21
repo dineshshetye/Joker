@@ -14,9 +14,6 @@
             }
 
             .joke {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 10px;
                 border-bottom: #dedede solid 1px;
             }
         </style>
@@ -24,15 +21,17 @@
         <h3>Jokes</h3>
         <paper-material role="listbox" elevation="1" class="paper">
             <template is="dom-repeat" items="[[jokes]]">
-
-                <joke-card joke="[[item.text]]" 
-                           user="[[item.addedBy]]"
-                           punchline="[[item.punchline]]"
-                           joker="[[item.joker]]"
-                           ></joke-card>
+                <div class="joke">
+                    <joke-card joke="[[item.text]]" user="[[item.addedBy]]" 
+                                punchline="[[item.punchline]]" 
+                                joker="[[item.joker]]"
+                                joke-id="[[item.id]]"
+                                uid="[[item.uid]]">
+                    </joke-card>
                     <template is="dom-if" if="[[_canDelete(item)]]">
                         <paper-icon-button icon="delete-forever" on-tap="_deleteItem"></paper-icon-button>
                     </template>
+                </div>
             </template>
         </paper-material>
     </template>
@@ -58,18 +57,8 @@
                 };
             }
 
-            _canDelete(item) {
-                if (!this.authenticated) return false;
-                if (item.uid == defaultAuth.currentUser.uid) return true;
-                return false;
-            }
-
-            _deleteItem(e) {
-                const id = e.model.item.id;
-                window.dispatchEvent(
-                    new CustomEvent('delete-joke', { detail: id })
-                );
-            }
+          
+           
         }
 
         window.customElements.define(ViewJokeList.is, ViewJokeList);

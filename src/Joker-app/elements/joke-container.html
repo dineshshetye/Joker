@@ -78,10 +78,6 @@
                         type: String,
                         notify: true
                     },
-                    date: {
-                        type: Date,
-                        value: Date.now()
-                    },
                     joker: {
                         type: String,
                         notify: true
@@ -99,7 +95,7 @@
                     text: this.text,
                     punchline: this.punchline,
                     addedBy: defaultAuth.currentUser.displayName,
-                    dateAdded: this.date,
+                    dateAdded: Date.now(),
                     joker: this.joker,
                     uid: defaultAuth.currentUser.uid
                 };

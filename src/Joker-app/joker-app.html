@@ -73,10 +73,6 @@
             Joker
           </div>
 
-
-
-
-
           <paper-icon-button id="appMenuButton" icon="more-vert" on-tap="_showLoginDialog"></paper-icon-button>
 
           <paper-dialog id="loginDialog" horizontal-align="right" vertical-align="top">
@@ -95,9 +91,6 @@
         </app-toolbar>
       </app-header>
       <div class="content">
-
-
-
         <template is="dom-if" if="[[authenticated]]">
           <joke-container></joke-container>
         </template>

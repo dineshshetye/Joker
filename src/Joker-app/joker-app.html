@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="./elements/joke-container.html">
 <link rel="import" href="./elements/userinfo-display.html">
 <link rel="import" href="./views/view-login.html">
@@ -46,6 +47,19 @@
           background: #009688;
           color: white;
         }
+
+        #loginDialog {
+          /*margin: 0;*/
+          margin-top: 10px;
+          padding: 0 !important;
+        }
+
+        #loginDialog .content {
+          margin: 0;
+          padding-left: 15px;
+          padding-right: 15px;
+          padding-top: 0;
+        }
       </style>
     </custom-style>
 
@@ -59,25 +73,31 @@
             Joker
           </div>
 
-          <template is="dom-if" if="[[!authenticated]]">
-            <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
-          </template>
 
-          <template is="dom-if" if="[[authenticated]]">
-            <userinfo-display photo-url="[[photoUrl]]" username="[[username]]"></userinfo-display>
-            <paper-menu-button>
-              <span slot="dropdown-trigger">
-                <paper-icon-button icon="more-vert" on-tap="_deleteItem"></paper-icon-button>
-              </span>
-              <paper-listbox slot="dropdown-content">
-                <paper-item on-tap="_signOut">Sign Out</paper-item>
-              </paper-listbox>
-            </paper-menu-button>
 
-          </template>
+
+
+          <paper-icon-button id="appMenuButton" icon="more-vert" on-tap="_showLoginDialog"></paper-icon-button>
+
+          <paper-dialog id="loginDialog" horizontal-align="right" vertical-align="top">
+            <template is="dom-if" if="[[authenticated]]">
+              <div class="content">
+                <userinfo-display photo-url="[[photoUrl]]" username="[[username]]"></userinfo-display>
+                <template is="dom-if" if="[[authenticated]]">
+                  <paper-button raised class="custom" on-tap="_signOut">Logout</paper-button>
+                </template>
+              </div>
+            </template>
+            <template is="dom-if" if="[[!authenticated]]">
+              <view-login username="{{username}}" photo-url="{{photoUrl}}"></view-login>
+            </template>
+          </paper-dialog>
         </app-toolbar>
       </app-header>
       <div class="content">
+
+
+
         <template is="dom-if" if="[[authenticated]]">
           <joke-container></joke-container>
         </template>
@@ -125,6 +145,11 @@
             }
           }
         };
+      }
+
+      _showLoginDialog() {
+        this.$.loginDialog.toggle();
+        this.$.loginDialog.positionTarget = this.$.appMenuButton;
       }
 
       _handleAuth(self) {

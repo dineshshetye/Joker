@@ -17,14 +17,17 @@
     "neon-elements": "^1.0.0",
     "underscore": "^1.8.3",
     "paper-toast": "^2.0.0",
-    "paper-dialog": "^2.0.0"
+    "paper-dialog": "^2.0.0",
+    "paper-fab": "^2.0.0",
+    "iron-form": "^1.1.5",
+    "iron-a11y-keys": "^2.0.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },
   "resolutions": {
-    "polymer": "^2.0.0",
+    "polymer": "1.9 - 2",
     "webcomponentsjs": "^v1.0.0"
   }
 }

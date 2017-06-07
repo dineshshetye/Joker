@@ -4,6 +4,7 @@
 <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="joke-container">
@@ -12,42 +13,47 @@
              :host {
                 display: block;
             }
+
             .paper {
                 background: white;
             }
+
             .joke {
                 width: 100%;
                 box-sizing: border-box;
                 padding: 10px;
             }
+
             .joker-row {
                 display: flex;
                 width: 100%;
             }
 
             .joker-input {
-                width: 100%; 
+                width: 100%;
             }
 
             .joker-auto {
                 margin: auto;
                 margin-bottom: 0;
             }
+
             .me-button {
                 background: white;
             }
+
             .custom {
                 /*background: #00E676;*/
                 background: #009688;
                 color: white;
             }
-
         </style>
 
         <div>
-            <form>
-                <paper-input type="text" value="{{text}}" label="Joke" required auto-validate></paper-input>
-                <paper-input type="text" value="{{punchline}}" label="Punchline" required auto-validate></paper-input>
+            <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="_saveJoke"></iron-a11y-keys>
+            <form id="form">
+                <paper-input id="joke" type="text" value="{{text}}" label="Joke" required auto-validate></paper-input>
+                <paper-input id="punchline" type="text" value="{{punchline}}" label="Punchline" required auto-validate></paper-input>
                 <div class="joker-row">
                     <div class="joker-input">
                         <paper-input type="text" value="{{joker}}" label="Joker" required auto-validate></paper-input>
@@ -56,7 +62,8 @@
                         <paper-button class="me-button" on-tap="_autoPopulate" raised>Me</paper-button>
                     </div>
                 </div>
-                <paper-button type="submit" on-tap="_saveJoke" class="custom" raised>Add</paper-button>
+                <paper-button on-tap="_cancel">Cancel</paper-button>
+                <paper-button id="addButton" type="submit" on-tap="_saveJoke" class="custom" raised>Add</paper-button>
             </form>
         </div>
     </template>
@@ -81,8 +88,16 @@
                     joker: {
                         type: String,
                         notify: true
+                    },
+                    target: {
+                        type: Object
                     }
                 }
+            }
+
+            ready() {
+                super.ready();
+                this.target = this.$.form;
             }
 
             _autoPopulate() {
@@ -91,6 +106,14 @@
 
             _saveJoke() {
                 let self = this;
+
+                const valid = [
+                    this.$.joke.validate(), 
+                    this.$.punchline.validate()
+                ].reduce((acc, x) => acc && x, true);
+
+                if (!valid) return;
+
                 let joke = {
                     text: this.text,
                     punchline: this.punchline,
@@ -99,12 +122,21 @@
                     joker: this.joker,
                     uid: defaultAuth.currentUser.uid
                 };
-                window.dispatchEvent(
-                    new CustomEvent('add-joke', { detail: joke })
+                this.dispatchEvent(
+                    new CustomEvent('add-joke', {
+                        detail: joke
+                    })
                 );
-             
+
                 this.text = '';
                 this.punchline = ''
+            }
+
+            focus() {
+                console.log('focusing on joke');
+                setTimeout(() => {
+                    this.$.joke.focus();
+                }, 500)
             }
         }
 

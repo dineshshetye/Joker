@@ -1,16 +1,24 @@
 {
   "hosting": {
     "public": "build/default",
-    "ignore": [
-    ]
+    "ignore": []
   },
   "rules": {
-   "jokes": {
+    "jokes": {
       "$joke": {
-        // only the user that created the data can delete it
-				".write": "!data.exists() || auth.uid == data.child('uid').val()"
+        ".write": "!data.exists() || auth.uid == data.child('uid').val()"
       },
-     	".read": "true"
+      ".read": "true"
+    }
+  },
+  "database": {
+    "rules": {
+      "jokes": {
+        "$joke": {
+          ".write": "!data.exists() || auth.uid == data.child('uid').val()"
+        },
+        ".read": "true"
+      }
     }
   }
 }

@@ -100,7 +100,7 @@
         <div hidden$="[[!authenticated]]">
           <paper-fab icon="add" on-tap="_addJoke"></paper-fab>
           <paper-dialog id="addJokeDialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-            <joke-container id="jokeContainer" on-add-joke="_saveJoke"></joke-container>
+            <joke-container id="jokeContainer" on-add-joke="_saveJoke" on-cancel="_cancelAddJoke"></joke-container>
           </paper-dialog>
         </div>
         <view-joke-list authenticated="[[authenticated]]" jokes="[[store.jokes]]"></view-joke-list>

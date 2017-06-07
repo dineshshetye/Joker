@@ -132,6 +132,12 @@
                 this.punchline = ''
             }
 
+            _cancel() {
+                this.dispatchEvent(new Event('cancel'));
+                this.text = '';
+                this.punchline = ''
+            }
+
             focus() {
                 console.log('focusing on joke');
                 setTimeout(() => {

@@ -2,3 +2,5 @@ scripts/firebase-init.js
 bower_components
 build
 *.log
+node_modules
+yarn.lock
